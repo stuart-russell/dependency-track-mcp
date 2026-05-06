@@ -1,0 +1,31 @@
+{
+  "name": "dependency-track-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP Server for Dependency Track API",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts"
+  },
+  "keywords": [
+    "mcp",
+    "dependency-track",
+    "api"
+  ],
+  "author": "Dependency Track MCP Server",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/dotenv": "^6.1.1",
+    "dotenv": "^17.4.2",
+    "express": "^4.18.2",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.5",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
