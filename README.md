@@ -49,6 +49,29 @@ This approach keeps the MCP tool surface minimal (just 2 tools) while providing 
 | **Integration** | 1 | `get_osv_ecosystems` |
 | **Version** | 1 | `get_version` |
 
+## Quick Start (npx)
+
+The fastest way to run the server — no installation required:
+
+```bash
+npx dependency-track-mcp-server \
+  --base-url https://your-dependency-track-instance.com \
+  --api-key your-api-key-here
+```
+
+You can also use environment variables instead of CLI flags:
+
+```bash
+DEPENDENCY_TRACK_API_KEY=your-api-key-here \
+  npx dependency-track-mcp-server --base-url https://your-dependency-track-instance.com
+```
+
+See all options:
+
+```bash
+npx dependency-track-mcp-server --help
+```
+
 ## Setup
 
 ### Prerequisites
@@ -57,7 +80,7 @@ This approach keeps the MCP tool surface minimal (just 2 tools) while providing 
 - Dependency-Track instance with API access
 - API key for your Dependency-Track instance
 
-### Installation
+### Installation (local)
 
 1. Clone the repository:
    ```bash

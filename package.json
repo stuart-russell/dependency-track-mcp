@@ -3,10 +3,22 @@
   "version": "0.1.0",
   "description": "MCP Server for Dependency Track API",
   "main": "dist/server.js",
+  "bin": {
+    "dependency-track-mcp-server": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "tsx watch src/server.ts"
+    "start": "node dist/cli.js",
+    "dev": "tsx watch src/server.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
   },
   "keywords": [
     "mcp",
