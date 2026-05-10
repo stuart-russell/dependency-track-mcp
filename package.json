@@ -2,14 +2,23 @@
   "name": "dependency-track-mcp-server",
   "version": "0.1.0",
   "description": "MCP Server for Dependency Track API",
-  "main": "dist/server.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cli": "./dist/cli.js"
+  },
   "bin": {
     "dependency-track-mcp-server": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/cli.ts",
     "prepublishOnly": "npm run build"
   },
   "files": [

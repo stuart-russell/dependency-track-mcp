@@ -10,6 +10,7 @@ An MCP (Model Context Protocol) server that provides **read-only** access to the
 - **Streamable HTTP Transport** — Compatible with Claude Desktop, Claude Code, and Claude.ai
 - **Pagination Support** — All list endpoints support `offset` and `limit` parameters
 - **Smart Response Handling** — Automatic `X-Total-Count` headers, intelligent truncation with guidance
+- **Programmatic API** — Import and embed the server in your own Node.js applications
 
 ## Architecture
 
@@ -119,7 +120,87 @@ npm run dev  # Start in development mode with auto-reload
 
 ```bash
 npm run build  # Compile TypeScript to JavaScript
-npm start    # Start the compiled server
+npm start      # Start the compiled server
+```
+
+## Programmatic Usage
+
+This package is published as **ESM** and exposes several entry points for embedding the server in your own applications.
+
+### Entry Points
+
+| Path | Exports |
+|---|---|
+| `dependency-track-mcp-server` | `createApp`, `startServer`, `createMcpServer`, `DTMcpConfig` |
+| `dependency-track-mcp-server/cli` | CLI binary (used by `npx`) |
+
+### Simple Boot
+
+```ts
+import { startServer } from "dependency-track-mcp-server";
+
+await startServer({
+  dependencyTrack: {
+    baseUrl: "https://your-dependency-track-instance.com",
+    apiKey: "your-api-key",
+  },
+  server: {
+    port: 4000,
+  },
+});
+```
+
+### Embed in an Existing Express App
+
+```ts
+import express from "express";
+import { createApp } from "dependency-track-mcp-server";
+
+const config = {
+  dependencyTrack: {
+    baseUrl: "https://your-dependency-track-instance.com",
+    apiKey: "your-api-key",
+  },
+  server: {},
+};
+
+const app = createApp(config);
+
+// Add your own routes alongside the MCP endpoint
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+
+app.listen(3000);
+```
+
+### Custom Transport
+
+```ts
+import { createMcpServer } from "dependency-track-mcp-server";
+
+const server = createMcpServer({
+  dependencyTrack: {
+    baseUrl: "https://your-dependency-track-instance.com",
+    apiKey: "your-api-key",
+  },
+  server: {},
+});
+
+// Connect any MCP transport (stdio, custom, etc.)
+await server.connect(myTransport);
+```
+
+### Config Reference
+
+```ts
+interface DTMcpConfig {
+  dependencyTrack: {
+    baseUrl: string;   // Required: Dependency-Track instance URL
+    apiKey: string;    // Required: API key with appropriate permissions
+  };
+  server: {
+    port?: number;     // Optional: server port (default: 3000)
+  };
+}
 ```
 
 ## Usage with MCP Clients
@@ -191,18 +272,14 @@ Then launch Codex — the Dependency-Track tools will be available automatically
 
 ## Deployment
 
-### Cloudflare Workers (Recommended)
-
-For the fastest deployment to a public URL, see the Cloudflare Workers deploy guide.
-
-### Other Hosting Options
-
 This server can be deployed to any Node.js hosting platform:
 - Render
 - Railway
 - Fly.io
 - AWS Elastic Beanstalk
 - Traditional VPS
+- AWS ECS Fargate
+- AWS Lambda
 
 ## Security Notes
 
